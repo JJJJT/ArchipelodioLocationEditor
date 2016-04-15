@@ -63,6 +63,17 @@ void ofApp::updateUser(const record &r)
     users.open(url);
 }
 
+void ofApp::removeTester(const record &r)
+{
+    string url = "http://mb09.com/ARCHIPELAUDIO/api/remove?uid=";
+    url += r.uid;
+    cout<<"deleteing...\n"<<url<<endl;
+    users.open(url);
+    
+    map._chosen = -1;
+    loadUsers();
+}
+
 
 //mapping correctly even if outputMin > outputMax
 float ofApp::valueMap(float input, float inputMin, float inputMax, float outputMin, float outputMax)
@@ -99,6 +110,13 @@ void ofApp::keyPressed(int key){
         map.refresh();
         updateUser(r);
     }
+    if(key == OF_KEY_BACKSPACE)//remove user (only works on testers)
+    {
+        if(map._chosen>-1 && map.records[map._chosen].tester == 1)
+        {
+            removeTester(map.records[map._chosen]);
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -113,7 +131,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-    map.drag(ofGetMouseX(),ofGetMouseY(),0,0,hkMap.getWidth(),hkMap.getHeight());
+    map.drag(ofGetMouseY(),ofGetMouseX(),0,0,hkMap.getWidth(),hkMap.getHeight());
 }
 
 //--------------------------------------------------------------

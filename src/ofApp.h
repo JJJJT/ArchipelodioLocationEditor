@@ -36,5 +36,5 @@ public:
     ofxJSONElement users;
     void loadUsers();
     void updateUser(const record &r);
-    
+    void removeTester(const record &r);   //only works on tester
 };
